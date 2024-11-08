@@ -5,8 +5,10 @@ from transformers import pipeline
 # Set up OpenAI API key (Replace with your OpenAI API key in the Streamlit environment variables)
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Initialize Hugging Face summarization pipeline
-summarizer = pipeline("summarization")
+from transformers import pipeline
+
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+
 
 # Function for Text Summarization
 def generate_summary(text):
