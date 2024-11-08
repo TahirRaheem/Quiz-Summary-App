@@ -2,30 +2,23 @@ import openai
 import streamlit as st
 from transformers import pipeline
 
-# Set up OpenAI API key (Replace with your OpenAI API key in the Streamlit environment variables)
+# Access the API keys from Streamlit's secrets
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+huggingface_api_key = st.secrets["HUGGINGFACE_API_KEY"]
 
-from transformers import pipeline
-
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
-
+# Initialize Hugging Face summarization pipeline with API key for authentication
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn", use_auth_token=huggingface_api_key)
 
 # Function for Text Summarization
 def generate_summary(text):
-    """
-    Summarizes the given input text.
-    """
     summary = summarizer(text, max_length=150, min_length=50, do_sample=False)
     return summary[0]['summary_text']
 
 # Function to generate multiple-choice quiz questions from text
 def generate_questions(text):
-    """
-    Generates quiz questions from the given text using GPT-3.
-    """
     prompt = f"Generate 5 multiple-choice questions based on the following text:\n\n{text}"
     response = openai.Completion.create(
-      engine="text-davinci-003",  # You can use other GPT-3 models as well
+      engine="text-davinci-003",
       prompt=prompt,
       max_tokens=150
     )
