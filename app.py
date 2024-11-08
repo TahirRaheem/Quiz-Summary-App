@@ -3,7 +3,7 @@ import streamlit as st
 from transformers import pipeline
 
 # Set up OpenAI API key (Replace with your OpenAI API key in the Streamlit environment variables)
-openai.api_key = st.secrets["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"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Initialize Hugging Face summarization pipeline
 summarizer = pipeline("summarization")
